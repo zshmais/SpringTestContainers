@@ -1,0 +1,43 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	//Test Container Dependency
+	testCompile "org.testcontainers:testcontainers:1.14.3"
+	testCompile "org.testcontainers:junit-jupiter:1.14.3"
+
+
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	//Embedded Redis Dependency
+	testCompile ("it.ozimov:embedded-redis:0.7.3"){
+		exclude group: 'org.slf4j', module: 'slf4j-simple'
+	}
+}
+
+test {
+	useJUnitPlatform()
+}
